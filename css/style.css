@@ -15,6 +15,14 @@
   --radius-lg: 18px;
   --max-width: 1200px;
   --header-height: 72px;
+
+  /* Showcase panel system (hero + pricing) */
+  --backdrop-violet-1: #6d28d9;
+  --backdrop-violet-2: #4c1d95;
+  --backdrop-violet-3: #1e0a35;
+  --panel-bg: #0a0a0e;
+  --card-flat-bg: #111116;
+  --card-flat-border: #2a2a33;
 }
 
 /* -------------------------------------------------------------------------
@@ -31,14 +39,30 @@ html {
 }
 
 body {
+  position: relative;
   margin: 0;
   min-height: 100vh;
-  background-color: var(--bg-main);
+  background-color: #000000;
   color: var(--text-main);
   font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Single, continuous black-to-purple gradient backdrop shared by every
+   section on every page (fixed to the viewport so it never re-starts or
+   changes shade as sections/pages scroll past). */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1100px 760px at 12% -8%, rgba(124, 58, 237, 0.38), transparent 60%),
+    radial-gradient(900px 700px at 100% 8%, rgba(168, 85, 247, 0.22), transparent 55%),
+    radial-gradient(1100px 850px at 50% 105%, rgba(76, 29, 149, 0.3), transparent 60%),
+    linear-gradient(180deg, #050308 0%, #0B0914 38%, #0a0612 68%, #030106 100%);
 }
 
 img,
@@ -86,8 +110,12 @@ ul {
   padding: 72px 0;
 }
 
+/* Sections no longer carry their own block background color — the page
+   uses a single continuous gradient (see body::before) so nothing reads
+   as a separate purple/black stripe. section--card is kept only as a
+   spacing/marker hook for now. */
 .section--card {
-  background-color: var(--bg-card);
+  background-color: transparent;
 }
 
 .eyebrow {
@@ -560,6 +588,310 @@ ul {
 }
 
 /* -------------------------------------------------------------------------
+   Showcase panel system — shared "rounded dark panel" wrapper used by the
+   redesigned hero and the redesigned pricing section. The outer wrapper no
+   longer paints its own distinct background — the page's single continuous
+   gradient (body::before) already shows through, so nothing reads as a
+   separate purple/black block.
+   ------------------------------------------------------------------------- */
+.showcase-outer {
+  position: relative;
+  padding: 56px 16px;
+}
+
+.showcase-panel {
+  position: relative;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 48px 56px;
+  border-radius: 28px;
+  background-color: var(--panel-bg);
+  overflow: hidden;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
+}
+
+.showcase-panel::before {
+  content: "";
+  position: absolute;
+  inset: -20% -20% auto auto;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.showcase-panel--pricing {
+  max-width: 1400px;
+  padding: 64px 56px;
+}
+
+/* ---------------------------- Hero panel ---------------------------- */
+.hero-panel {
+  padding: 0;
+}
+
+.hero-panel::before {
+  content: none;
+}
+
+.hero-panel-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("../assets/hero-bg.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  filter: brightness(0.55) saturate(1.15) blur(1px);
+  transform: scale(1.03);
+}
+
+.hero-panel-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(700px 520px at 10% 10%, rgba(168, 85, 247, 0.4), transparent 60%),
+    linear-gradient(165deg, rgba(15, 6, 28, 0.5) 0%, rgba(9, 5, 17, 0.8) 55%, rgba(5, 3, 8, 0.96) 100%);
+}
+
+.hero-panel-content {
+  position: relative;
+  z-index: 1;
+  padding: 68px 56px 84px;
+}
+
+.hero-panel-content h1 {
+  font-size: clamp(2.1rem, 4.6vw, 3.5rem);
+  line-height: 1.14;
+  margin-bottom: 18px;
+}
+
+.hero-panel-content .accent-text {
+  color: var(--accent-primary);
+}
+
+.hero-panel-content .lead {
+  color: #d8d5e0;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  max-width: 620px;
+  margin-bottom: 28px;
+}
+
+.hero-stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 32px;
+}
+
+.hero-stat-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-stat-number {
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
+  font-weight: 800;
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.hero-visual-pill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 40px;
+  max-width: 100%;
+  padding: 10px 10px 10px 22px;
+  border-radius: 999px;
+  background-color: rgba(10, 10, 14, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.hero-visual-pill span {
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.hero-visual-pill-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
+  color: var(--text-main);
+}
+
+.hero-visual-pill-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* -------------------------------------------------------------------------
+   Pricing showcase — 3-tier glass/gradient pricing cards
+   ------------------------------------------------------------------------- */
+.pricing-showcase-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.price-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border-radius: 20px;
+  background-color: var(--card-flat-bg);
+  border: 1px solid var(--card-flat-border);
+}
+
+.price-card.is-featured {
+  background: linear-gradient(160deg, #7c3aed, var(--accent-primary));
+  border: none;
+  box-shadow: 0 0 80px rgba(168, 85, 247, 0.45);
+}
+
+.price-card-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  color: #7c3aed;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 999px;
+}
+
+.price-card-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.price-card-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.price-card.is-featured .price-card-desc {
+  color: #ede9fe;
+}
+
+.price-card-price {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 24px 0 22px;
+  line-height: 1;
+}
+
+.price-card-price .period {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.price-card.is-featured .price-card-price .period {
+  color: #ede9fe;
+}
+
+.price-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: grid;
+  gap: 13px;
+  flex: 1;
+}
+
+.price-feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.price-card.is-featured .price-feature-list li {
+  color: #ffffff;
+}
+
+.price-feature-list li svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  color: #a5b4fc;
+}
+
+.price-card.is-featured .price-feature-list li svg {
+  color: #ffffff;
+}
+
+.price-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 46px;
+  border-radius: 11px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  border: 1.5px solid var(--accent-primary);
+  color: #c084fc;
+  background-color: transparent;
+  margin-top: auto;
+}
+
+.price-cta:hover {
+  transform: translateY(-2px);
+  background-color: rgba(168, 85, 247, 0.12);
+  color: var(--text-main);
+}
+
+.price-cta.is-inverted {
+  border: none;
+  background-color: #ffffff;
+  color: #7c3aed;
+}
+
+.price-cta.is-inverted:hover {
+  background-color: #ede9fe;
+  color: #7c3aed;
+}
+
+/* -------------------------------------------------------------------------
    FAQ (native details/summary)
    ------------------------------------------------------------------------- */
 .faq {
@@ -868,6 +1200,28 @@ table.compare tr:last-child td {
   .footer-grid {
     grid-template-columns: 2fr 1fr 1fr;
   }
+
+  .showcase-panel {
+    padding: 40px 32px;
+  }
+
+  .hero-panel {
+    padding: 0;
+  }
+
+  .hero-panel-content {
+    padding: 52px 32px 64px;
+  }
+
+  .hero-panel-content .lead {
+    max-width: none;
+  }
+
+  .pricing-showcase-grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 860px) {
@@ -943,5 +1297,43 @@ table.compare tr:last-child td {
 
   table.compare {
     min-width: 560px;
+  }
+
+  .showcase-outer {
+    padding: 32px 12px;
+  }
+
+  .showcase-panel {
+    padding: 32px 20px;
+    border-radius: 20px;
+  }
+
+  .hero-panel {
+    padding: 0;
+    border-radius: 20px;
+  }
+
+  .hero-panel-content {
+    padding: 40px 22px 48px;
+  }
+
+  .hero-panel-content h1 {
+    text-align: left;
+  }
+
+  .hero-stat-row {
+    gap: 28px;
+  }
+
+  .hero-visual-pill {
+    padding: 8px 8px 8px 16px;
+  }
+
+  .hero-visual-pill span {
+    font-size: 0.8rem;
+  }
+
+  .price-card {
+    padding: 28px 24px;
   }
 }
