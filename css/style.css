@@ -13,7 +13,7 @@
   --border-color: rgba(168, 85, 247, 0.2);
   --radius-md: 10px;
   --radius-lg: 18px;
-  --max-width: 1200px;
+  --max-width: 1320px;
   --header-height: 72px;
 
   /* Showcase panel system (hero + pricing) */
@@ -160,6 +160,35 @@ ul {
 
 .section-heading p {
   margin: 0;
+}
+
+/* Left-aligned, flush-left page header used at the top of long-form
+   Blog/Guide article pages — deliberately NOT centered like
+   .section-heading, and capped at the same width as the article text
+   column below it so the title/eyebrow/lead line up with the body copy
+   instead of floating as a separate centered block. */
+.article-header {
+  text-align: left;
+  max-width: 750px;
+  margin: 0 0 48px;
+}
+
+.article-header p {
+  margin: 0;
+}
+
+.article-header .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.article-header .eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 1px;
+  background-color: var(--accent-primary);
 }
 
 .text-center {
@@ -651,7 +680,7 @@ ul {
    ------------------------------------------------------------------------- */
 .showcase-outer {
   position: relative;
-  padding: 56px 16px;
+  padding: 50px 16px;
 }
 
 .showcase-panel {
@@ -1056,7 +1085,7 @@ table.compare tr:last-child td {
    the full container width so wide elements — the comparison table below —
    can use the extra space instead of being squeezed into the text column. */
 .prose {
-  max-width: 1200px;
+  max-width: var(--max-width);
   margin: 0 auto;
   text-align: left;
 }
@@ -1076,8 +1105,14 @@ table.compare tr:last-child td {
   text-align: left;
 }
 
+/* Font size/weight/case intentionally NOT overridden here — h2/h3 inside
+   .prose must render with the exact same font styling (size, weight, case)
+   as the bare h2/h3 rules used site-wide on Home and CS2 Cheats, so headings
+   look identical across all 4 pages. Only spacing (margins) is adjusted for
+   the article's vertical rhythm. */
 .prose h2 {
-  margin-top: 2.2em;
+  margin-top: 3.2em;
+  margin-bottom: 0.7em;
 }
 
 .prose h2:first-child {
@@ -1085,9 +1120,7 @@ table.compare tr:last-child td {
 }
 
 .prose h3 {
-  font-size: 1.25rem;
   margin-top: 1.6em;
-  color: var(--text-main);
 }
 
 .prose a {
