@@ -1190,31 +1190,28 @@ table.compare tr:last-child td {
 /* -------------------------------------------------------------------------
    Footer
    ------------------------------------------------------------------------- */
-.site-footer {
-  background-color: var(--bg-card);
-  border-top: 1px solid var(--border-color);
-  padding: 56px 0 24px;
-}
+   .site-footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    padding: 40px 0px 24px;   
+  }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 32px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .footer-grid h4 {
   color: var(--text-main);
   font-size: 0.95rem;
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
 
-.footer-grid ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.footer-grid {
   display: grid;
-  gap: 10px;
+  grid-template-columns: 2fr 1fr 1fr 1fr; 
+  margin-bottom: 10px;
 }
 
 .footer-grid ul a {
@@ -1228,11 +1225,11 @@ table.compare tr:last-child td {
 
 .footer-bottom {
   border-top: 1px solid var(--border-color);
-  padding-top: 20px;
+  padding-top: 8px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 12px;
+  gap: 4px;
   font-size: 0.8rem;
   color: var(--text-muted);
 }
@@ -1415,3 +1412,4 @@ table.compare tr:last-child td {
     padding: 28px 24px;
   }
 }
+
