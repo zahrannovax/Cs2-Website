@@ -44,7 +44,8 @@ body {
   min-height: 100vh;
   background-color: #000000;
   color: var(--text-main);
-  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 400;
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -85,13 +86,36 @@ h2,
 h3,
 h4 {
   color: var(--text-main);
-  line-height: 1.25;
+  font-weight: 700;
+  line-height: 1.2;
   margin: 0 0 0.6em;
+}
+
+h1 {
+  font-size: 2.8rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.3rem;
 }
 
 p {
   color: var(--text-muted);
-  margin: 0 0 1em;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  margin: 0 0 1.5rem;
+}
+
+li {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 ul {
@@ -103,7 +127,7 @@ ul {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 .section {
@@ -124,7 +148,7 @@ ul {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-size: 0.8rem;
+  font-size: 2.2rem;
   margin-bottom: 12px;
 }
 
@@ -1026,13 +1050,33 @@ table.compare tr:last-child td {
 /* -------------------------------------------------------------------------
    Article / prose content (blog & guide pages)
    ------------------------------------------------------------------------- */
+/* .prose is intentionally wider than its readable text column: the column
+   (headings, paragraphs, lists, callouts, steps) is capped at ~750px for a
+   comfortable 65-75 characters per line, while the wrapper itself stays at
+   the full container width so wide elements — the comparison table below —
+   can use the extra space instead of being squeezed into the text column. */
 .prose {
-  max-width: 780px;
+  max-width: 1200px;
   margin: 0 auto;
+  text-align: left;
+}
+
+.prose > h2,
+.prose > h3,
+.prose > p,
+.prose > ul,
+.prose > .callout,
+.prose > .step,
+.prose > .cta-row {
+  max-width: 1200px;
+}
+
+.prose h2,
+.prose h3 {
+  text-align: left;
 }
 
 .prose h2 {
-  font-size: 1.8rem;
   margin-top: 2.2em;
 }
 
@@ -1044,11 +1088,6 @@ table.compare tr:last-child td {
   font-size: 1.25rem;
   margin-top: 1.6em;
   color: var(--text-main);
-}
-
-.prose p,
-.prose li {
-  font-size: 1.02rem;
 }
 
 .prose a {
@@ -1291,9 +1330,17 @@ table.compare tr:last-child td {
   .section {
     padding: 52px 0;
   }
+
+  .container {
+    padding: 0 24px;
+  }
 }
 
 @media (max-width: 640px) {
+  .container {
+    padding: 0 18px;
+  }
+
   .grid-4 {
     grid-template-columns: 1fr;
   }
