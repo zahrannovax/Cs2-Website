@@ -317,8 +317,10 @@ ul {
 }
 
 .brand img {
-  width: 32px;
   height: 32px;
+  width: auto;
+  object-fit: contain;
+  image-rendering: auto;
 }
 
 .brand:hover {
@@ -1221,58 +1223,239 @@ table.compare tr:last-child td {
 }
 
 /* -------------------------------------------------------------------------
-   Footer
+   Footer — quiet/flat SaaS-style footer: wide brand column (logo + tagline
+   + socials), three link columns, a newsletter column, a thin divider, then
+   a slim legal/copyright utility row. Intentionally has no glow/gradient
+   drama of its own (unlike the hero/pricing showcase panels) — just a
+   faint purple-tinted near-black background and a muted text hierarchy.
+   Font stays the site's global Inter stack; only weights/sizes are set here.
    ------------------------------------------------------------------------- */
-   .site-footer {
-    background-color: var(--bg-card);
-    border-top: 1px solid var(--border-color);
-    padding: 40px 0px 24px;   
-  }
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  margin-bottom: 10px;
+.site-footer {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(124, 58, 237, 0.08) 0%, rgba(5, 3, 8, 0) 45%),
+    #07050d;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 64px 0 40px;
 }
 
-.footer-grid h4 {
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.3fr) repeat(3, 1fr) minmax(220px, 1.25fr);
+  gap: 48px;
+  align-items: start;
+}
+
+/* Brand block */
+.footer-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 1.15rem;
   color: var(--text-main);
-  font-size: 0.95rem;
-  margin-bottom: 4px;
 }
 
-.footer-grid {
+.footer-brand-logo:hover {
+  color: var(--text-main);
+}
+
+.footer-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.footer-logo-badge img {
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.footer-tagline {
+  color: #8b8894;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 14px 0 0;
+  max-width: 280px;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b8894;
+  transition: color 0.2s ease;
+}
+
+.footer-social a:hover {
+  color: var(--text-main);
+}
+
+.footer-social svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Link columns — Site / Store / Support */
+.footer-col h4 {
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr; 
-  margin-bottom: 10px;
+  gap: 13px;
 }
 
-.footer-grid ul a {
-  color: var(--text-muted);
-  font-size: 0.9rem;
+.footer-col ul a {
+  color: #8b8894;
+  font-size: 0.88rem;
+  font-weight: 400;
 }
 
-.footer-grid ul a:hover {
-  color: var(--accent-primary);
+.footer-col ul a:hover {
+  color: var(--text-main);
+}
+
+/* Newsletter column */
+.footer-newsletter h4 {
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.footer-newsletter p {
+  color: #8b8894;
+  font-size: 0.85rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.newsletter-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.88rem;
+  padding: 8px 2px;
+  border-radius: 0;
+  transition: border-color 0.2s ease;
+}
+
+.newsletter-input::placeholder {
+  color: #6b6874;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+.newsletter-submit {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.newsletter-submit:hover {
+  background-color: #ffffff;
+  color: #0a0a0e;
+  transform: translateY(-1px);
+}
+
+.newsletter-submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+  transform: none;
+}
+
+/* Divider + bottom utility row */
+.footer-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 44px 0 24px;
 }
 
 .footer-bottom {
-  border-top: 1px solid var(--border-color);
-  padding-top: 8px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 4px;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.footer-legal-links a,
+.footer-legal-links span {
+  color: #6b6874;
   font-size: 0.8rem;
-  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.footer-legal-links a:hover {
+  color: var(--text-main);
+}
+
+.footer-copyright {
+  color: #6b6874;
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
 .disclaimer {
   font-size: 0.78rem;
-  color: var(--text-muted);
-  opacity: 0.75;
+  color: #6b6874;
+  opacity: 0.9;
   max-width: 900px;
-  margin: 24px auto 0;
+  margin: 28px auto 0;
   text-align: center;
 }
 
@@ -1297,8 +1480,15 @@ table.compare tr:last-child td {
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
-  .footer-grid {
-    grid-template-columns: 2fr 1fr 1fr;
+
+  .footer-top {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px 32px;
+  }
+
+  .footer-brand,
+  .footer-newsletter {
+    grid-column: 1 / -1;
   }
 
   .showcase-panel {
@@ -1353,7 +1543,7 @@ table.compare tr:last-child td {
     grid-template-columns: 1fr;
   }
 
-  .footer-grid {
+  .footer-top {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -1375,9 +1565,14 @@ table.compare tr:last-child td {
     grid-template-columns: 1fr;
   }
 
-  .footer-grid {
+  .footer-top {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 32px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero {

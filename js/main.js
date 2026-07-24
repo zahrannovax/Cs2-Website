@@ -6,6 +6,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   initMobileNav();
   initVideoOverlay();
+  initNewsletterForm();
 });
 
 /**
@@ -65,5 +66,33 @@ function initVideoOverlay() {
 
   video.addEventListener("ended", function () {
     overlay.classList.remove("is-hidden");
+  });
+}
+
+/**
+ * Footer newsletter form has no backend to submit to, so this just
+ * prevents the page reload and gives the visitor a lightweight
+ * confirmation instead of a dead GET request.
+ */
+function initNewsletterForm() {
+  var form = document.querySelector(".newsletter-form");
+
+  if (!form) {
+    return;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    var input = form.querySelector(".newsletter-input");
+    var button = form.querySelector(".newsletter-submit");
+
+    if (button) {
+      button.textContent = "Subscribed!";
+      button.disabled = true;
+    }
+    if (input) {
+      input.value = "";
+    }
   });
 }
