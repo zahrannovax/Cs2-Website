@@ -98,6 +98,7 @@ h1 {
 h2 {
   font-size: 1.8rem;
   font-weight: 600;
+   font-weight: bold;
 }
 
 h3 {
@@ -269,11 +270,33 @@ ul {
 .cta-row {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 16px;
 }
 
 .cta-row.center {
   justify-content: center;
+}
+
+/* Wraps a purchase button together with its small reassurance note below
+   it, so the note tracks just that one button instead of stretching or
+   centering under the whole .cta-row (which may also hold an unrelated
+   secondary button). */
+.btn-note-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.cta-row.center .btn-note-wrap {
+  align-items: center;
+}
+
+.buy-note {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
 /* -------------------------------------------------------------------------
@@ -1177,6 +1200,15 @@ ul {
   color: #7c3aed;
 }
 
+.price-card .buy-note {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.price-card.is-featured .buy-note {
+  color: #ede9fe;
+}
+
 /* -------------------------------------------------------------------------
    FAQ (native details/summary)
    ------------------------------------------------------------------------- */
@@ -1298,7 +1330,8 @@ table.compare tr:last-child td {
 .prose > ul,
 .prose > .callout,
 .prose > .step,
-.prose > .cta-row {
+.prose > .cta-row,
+.prose > .requirements-card {
   max-width: 1200px;
 }
 
@@ -1340,6 +1373,46 @@ table.compare tr:last-child td {
 
 .callout p:last-child {
   margin-bottom: 0;
+}
+
+/* System requirements block: uppercase heading + a dark rounded card
+   holding a purple-dot bullet list, per the reference design. */
+.requirements-heading {
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.requirements-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  margin-bottom: 2rem;
+}
+
+.requirements-list {
+  list-style: none;
+  display: grid;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.requirements-list li {
+  position: relative;
+  padding-left: 22px;
+  color: var(--text-main);
+}
+
+.requirements-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-primary);
 }
 
 .step {
