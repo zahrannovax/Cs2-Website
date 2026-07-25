@@ -251,6 +251,12 @@ ul {
   color: var(--text-main);
 }
 
+.btn-discord svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
 .btn-block {
   width: 100%;
 }
@@ -424,16 +430,21 @@ ul {
 }
 
 /* -------------------------------------------------------------------------
-   Video module
+   Video module — a big cinematic panel modeled after a promo-poster style
+   video player: bold headline + "live preview" pill burned into the
+   bottom-left of the frame over a purple gradient wash, a persistent
+   mute toggle in the bottom-right corner, and a small tracked caption
+   underneath. The headline/pill/gradient live *inside* .video-play-overlay
+   so they fade out together with the play button once playback starts.
    ------------------------------------------------------------------------- */
 .video-wrapper {
   position: relative;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
-  border-radius: var(--radius-lg);
+  border-radius: 22px;
   overflow: hidden;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(168, 85, 247, 0.32);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55), 0 0 80px rgba(168, 85, 247, 0.16);
   background-color: #000;
 }
 
@@ -441,15 +452,16 @@ ul {
   width: 100%;
   aspect-ratio: 16 / 9;
   background-color: #000;
+  display: block;
 }
 
 .video-play-overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(11, 9, 20, 0.25);
   cursor: pointer;
   transition: opacity 0.25s ease;
 }
@@ -459,7 +471,90 @@ ul {
   pointer-events: none;
 }
 
+.video-overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(115deg, rgba(8, 5, 14, 0.88) 0%, rgba(46, 12, 66, 0.58) 42%, rgba(88, 28, 135, 0.22) 72%, rgba(88, 28, 135, 0.02) 100%),
+    linear-gradient(0deg, rgba(5, 3, 8, 0.55) 0%, rgba(5, 3, 8, 0) 40%);
+}
+
+.video-overlay-content {
+  position: absolute;
+  left: 32px;
+  bottom: 28px;
+  right: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.video-overlay-headline {
+  margin: 0;
+  color: var(--text-main);
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.video-overlay-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-main);
+}
+
+.video-overlay-sub em {
+  font-style: italic;
+  font-weight: 700;
+  color: #e9a8ff;
+}
+
+.video-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(5, 3, 8, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--text-main);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.video-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #f43f5e;
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.3);
+  animation: liveDotPulse 1.6s infinite;
+}
+
+@keyframes liveDotPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
 .play-button {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -496,6 +591,59 @@ ul {
   }
 }
 
+.video-mute-toggle {
+  position: absolute;
+  z-index: 3;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(5, 3, 8, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.video-mute-toggle:hover {
+  background: rgba(168, 85, 247, 0.4);
+  border-color: var(--accent-primary);
+  transform: scale(1.06);
+}
+
+.video-mute-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
+.video-mute-toggle .icon-muted {
+  display: none;
+}
+
+.video-mute-toggle[aria-pressed="true"] .icon-unmuted {
+  display: none;
+}
+
+.video-mute-toggle[aria-pressed="true"] .icon-muted {
+  display: block;
+}
+
+.video-caption {
+  max-width: 1100px;
+  margin: 18px auto 0;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 /* -------------------------------------------------------------------------
    Cards / Grids
    ------------------------------------------------------------------------- */
@@ -517,16 +665,68 @@ ul {
 }
 
 .card {
+  position: relative;
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 28px;
+  overflow: hidden;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
   border-color: var(--accent-primary);
+}
+
+/* -------------------------------------------------------------------------
+   Tilted cards — a vanilla JS/CSS recreation of a mouse-tracked 3D tilt +
+   spring-settle effect (no React/framer-motion dependency; this project is
+   a static, buildless site — see js/main.js `initTiltCards`). Currently
+   applied to the Home page "Product Types" cards. `.tilt-card`'s transform
+   is driven entirely by JS on pointer devices; `.card:hover`'s translateY
+   above is the no-JS/touch fallback and is naturally overridden by the
+   inline transform once the tilt script takes over on mousemove.
+   ------------------------------------------------------------------------- */
+.tilt-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  /* Guaranteed fallback: a fixed, CSS-only tilt on plain :hover so the
+     card visibly reacts even if JS hasn't taken over yet (or, on a device
+     where it never does). js/main.js strips "transform" out of this
+     transition list on mouseenter so the JS spring can drive crisp,
+     un-smoothed per-frame updates once the cursor-tracking effect is live. */
+  transition: transform 0.3s ease, border-color 0.2s ease, box-shadow 0.3s ease;
+}
+
+.tilt-card:hover {
+  transform: perspective(900px) rotateX(6deg) rotateY(-8deg) scale(1.04);
+  border-color: var(--accent-primary);
+}
+
+.tilt-card-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--tilt-x, 50%) var(--tilt-y, 50%), rgba(168, 85, 247, 0.28), transparent 70%);
+  transition: opacity 0.25s ease;
+}
+
+.tilt-card.is-tilting {
+  border-color: var(--accent-primary);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.tilt-card.is-tilting .tilt-card-glow {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card-glow {
+    display: none;
+  }
 }
 
 .card-icon {
@@ -1596,6 +1796,34 @@ table.compare tr:last-child td {
   .play-button svg {
     width: 22px;
     height: 22px;
+  }
+
+  .video-overlay-content {
+    left: 18px;
+    bottom: 18px;
+    right: 66px;
+    gap: 12px;
+  }
+
+  .video-live-pill {
+    padding: 6px 12px;
+    font-size: 0.66rem;
+  }
+
+  .video-mute-toggle {
+    right: 14px;
+    bottom: 14px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .video-mute-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .video-caption {
+    font-size: 0.7rem;
   }
 
   table.compare {

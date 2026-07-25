@@ -1,8 +1,8 @@
 ﻿$listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add("http://localhost:8140/")
+$listener.Prefixes.Add("http://localhost:8150/")
 $listener.Start()
 $root = "C:\Users\zahra\Desktop\cs2 latest"
-Write-Host "Serving $root on http://localhost:8140/"
+Write-Host "Serving $root on http://localhost:8150/"
 while ($listener.IsListening) {
     $context = $listener.GetContext()
     $request = $context.Request
@@ -25,6 +25,7 @@ while ($listener.IsListening) {
             ".txt" { "text/plain" }
             default { "application/octet-stream" }
         }
+        $response.Headers.Add("Cache-Control", "no-store")
         $bytes = [System.IO.File]::ReadAllBytes($filePath)
         $response.ContentType = $contentType
         $response.ContentLength64 = $bytes.Length
